@@ -15,15 +15,6 @@ type Gallery {
   url: String!
 }
 
-input GalleryCreateInput {
-  url: String!
-}
-
-input GalleryUpdateInput {
-  id: Int!
-  url: String!
-}
-
 type Location {
   createdAt: DateTime!
   id: Int!
@@ -31,24 +22,6 @@ type Location {
   longitude: Float!
   place: Place
   updatedAt: DateTime!
-}
-
-input LocationCreateInput {
-  latitude: Float!
-  longitude: Float!
-}
-
-input LocationUpdateInput {
-  id: Int!
-  latitude: Float!
-  longitude: Float!
-}
-
-type Mutation {
-  createPage(data: PageCreateInput!): Page
-  createPlace(data: PlaceCreateInput!): Place
-  updatePage(data: PageUpdateInput!): Page
-  updatePlace(data: PlaceUpdateInput!): Place
 }
 
 type Page {
@@ -60,53 +33,19 @@ type Page {
   updatedAt: DateTime!
 }
 
-input PageCreateInput {
-  body: String
-  heading: String!
-  slug: String!
-}
-
-input PageUpdateInput {
-  body: String
-  heading: String!
-  id: Int!
-  slug: String!
-}
-
 type Place {
   createdAt: DateTime!
   description: String
-  gallery: [Gallery!]!
-  galleryId: Int!
+  gallery: [Gallery]
   id: Int!
-  location: Location!
-  locationId: Int!
+  location: Location
   name: String!
   slug: String!
   updatedAt: DateTime!
   visited: Boolean!
 }
 
-input PlaceCreateInput {
-  description: String
-  gallery: [GalleryCreateInput!]!
-  location: LocationCreateInput!
-  name: String!
-  slug: String!
-  visited: Boolean!
-}
-
-input PlaceUpdateInput {
-  description: String
-  gallery: [GalleryUpdateInput!]!
-  id: Int!
-  location: LocationUpdateInput!
-  name: String!
-  slug: String!
-  visited: Boolean!
-}
-
 type Query {
   page(first: Int, slug: String): [Page!]
-  place(first: Int, slug: String): [Place!]
+  place(first: Int, slug: String): [Place]
 }

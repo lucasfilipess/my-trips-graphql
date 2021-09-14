@@ -14,10 +14,10 @@ export const Query = objectType({
         first: intArg(),
         slug: stringArg()
       },
-      resolve: (_parent, args, context: Context) => {
-        const first = args.first ?? undefined
-        const slug = args.slug ?? undefined
-        return context.prisma.page.findMany({
+      resolve: (_parent, args, { prisma }: Context) => {
+        const first = args.first || undefined
+        const slug = args.slug || undefined
+        return prisma.page.findMany({
           where: {
             slug
           },
@@ -26,16 +26,16 @@ export const Query = objectType({
       }
     })
 
-    t.nullable.list.nonNull.field('place', {
+    t.nullable.list.nullable.field('place', {
       type: 'Place',
       args: {
         first: intArg(),
         slug: stringArg()
       },
-      resolve: (_parent, args, context: Context) => {
-        const first = args.first ?? undefined
-        const slug = args.slug ?? undefined
-        return context.prisma.place.findMany({
+      resolve: (_parent, args, { prisma }: Context) => {
+        const first = args.first || undefined
+        const slug = args.slug || undefined
+        return prisma.place.findMany({
           where: {
             slug
           },

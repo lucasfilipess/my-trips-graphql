@@ -1,4 +1,4 @@
-import { inputObjectType, objectType } from 'nexus'
+import { objectType } from 'nexus'
 import { Context } from '../../context'
 
 export const Gallery = objectType({
@@ -8,28 +8,13 @@ export const Gallery = objectType({
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.nonNull.field('updatedAt', { type: 'DateTime' })
     t.nonNull.string('url')
-    t.field('place', {
+    t.nullable.field('place', {
       type: 'Place',
-      resolve: (parent, _, context:Context) => {
-        return context.prisma.gallery.findUnique({
+      resolve: (parent, _, { prisma }: Context) => {
+        return prisma.gallery.findUnique({
           where: { id: parent.id || undefined }
         }).place()
       }
     })
-  }
-})
-
-export const GalleryCreateInput = inputObjectType({
-  name: 'GalleryCreateInput',
-  definition (t) {
-    t.nonNull.string('url')
-  }
-})
-
-export const GalleryUpdateInput = inputObjectType({
-  name: 'GalleryUpdateInput',
-  definition (t) {
-    t.nonNull.int('id')
-    t.nonNull.string('url')
   }
 })

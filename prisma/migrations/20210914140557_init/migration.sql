@@ -4,10 +4,10 @@ CREATE TABLE "Page" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "heading" VARCHAR(255) NOT NULL,
-    "body" TEXT,
+    "body" VARCHAR,
     "slug" VARCHAR(255) NOT NULL,
 
-    PRIMARY KEY ("id")
+    CONSTRAINT "Page_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -15,11 +15,11 @@ CREATE TABLE "Location" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "latitude" DOUBLE PRECISION NOT NULL,
-    "longitude" DOUBLE PRECISION NOT NULL,
-    "placeId" INTEGER NOT NULL,
+    "latitude" REAL NOT NULL,
+    "longitude" REAL NOT NULL,
+    "placeId" INTEGER,
 
-    PRIMARY KEY ("id")
+    CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -28,9 +28,9 @@ CREATE TABLE "Gallery" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "url" VARCHAR(255) NOT NULL,
-    "placeId" INTEGER NOT NULL,
+    "placeId" INTEGER,
 
-    PRIMARY KEY ("id")
+    CONSTRAINT "Gallery_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -41,28 +41,28 @@ CREATE TABLE "Place" (
     "slug" VARCHAR(255) NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "visited" BOOLEAN NOT NULL DEFAULT false,
-    "description" TEXT,
+    "description" VARCHAR,
 
-    PRIMARY KEY ("id")
+    CONSTRAINT "Place_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Page.heading_unique" ON "Page"("heading");
+CREATE UNIQUE INDEX "Page_heading_key" ON "Page"("heading");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Page.slug_unique" ON "Page"("slug");
+CREATE UNIQUE INDEX "Page_slug_key" ON "Page"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Location_placeId_unique" ON "Location"("placeId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Place.slug_unique" ON "Place"("slug");
+CREATE UNIQUE INDEX "Place_slug_key" ON "Place"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Place.name_unique" ON "Place"("name");
+CREATE UNIQUE INDEX "Place_name_key" ON "Place"("name");
 
 -- AddForeignKey
-ALTER TABLE "Location" ADD FOREIGN KEY ("placeId") REFERENCES "Place"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Location" ADD CONSTRAINT "Location_placeId_fkey" FOREIGN KEY ("placeId") REFERENCES "Place"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Gallery" ADD FOREIGN KEY ("placeId") REFERENCES "Place"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Gallery" ADD CONSTRAINT "Gallery_placeId_fkey" FOREIGN KEY ("placeId") REFERENCES "Place"("id") ON DELETE SET NULL ON UPDATE CASCADE;

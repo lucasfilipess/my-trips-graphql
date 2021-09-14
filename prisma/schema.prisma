@@ -8,31 +8,31 @@ generator client {
 }
 
 model Page {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  heading   String    @unique @db.VarChar(255)
-  body      String?
-  slug      String    @unique @db.VarChar(255)
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  heading   String   @unique @db.VarChar(255)
+  body      String?  @db.VarChar()
+  slug      String   @unique @db.VarChar(255)
 }
 
 model Location {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  latitude  Float
-  longitude Float
-  place     Place     @relation(fields: [placeId], references: [id])
-  placeId   Int
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  latitude  Float    @db.Real
+  longitude Float    @db.Real
+  place     Place?   @relation(fields: [placeId], references: [id])
+  placeId   Int?   
 }
 
 model Gallery {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  url       String    @db.VarChar(255)
-  place     Place     @relation(fields: [placeId], references: [id])
-  placeId   Int
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  url       String   @db.VarChar(255)
+  place     Place?   @relation(fields: [placeId], references: [id])
+  placeId   Int?   
 }
 
 model Place {
@@ -42,7 +42,7 @@ model Place {
   slug        String    @unique @db.VarChar(255)
   name        String    @unique @db.VarChar(255)
   visited     Boolean   @default(false)
-  location    Location?  
+  location    Location?
   gallery     Gallery[]
-  description String?
+  description String?   @db.VarChar()
 }

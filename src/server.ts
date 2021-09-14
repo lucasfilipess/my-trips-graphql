@@ -8,8 +8,8 @@ const app = express()
 app.use(
   '/graphql',
   graphqlHTTP({
-    schema: schema,
-    context: context,
+    schema,
+    context,
     graphiql: true
   })
 )
